@@ -1,0 +1,52 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$room": {
+        "room": {
+          ".read": "auth != null",
+          ".write": "auth != null && ((!data.exists() && newData.child('ownerUid').val() === auth.uid) || data.child('ownerUid').val() === auth.uid)",
+          ".validate": "newData.hasChildren(['ownerUid','status','currentQuestion','activeQuestionKey','eligibleStudents','votingOpen','resultVisible','totalQuestions']) && newData.child('status').val().matches(/^(waiting|voting|closed|result|finished)$/) && newData.child('currentQuestion').isNumber() && newData.child('currentQuestion').val() >= 1 && newData.child('currentQuestion').val() <= newData.child('totalQuestions').val()"
+        },
+        "questions": {
+          ".write": "auth != null && root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid",
+          "$question": {
+            "id": { ".read": "auth != null" },
+            "text": { ".read": "auth != null" },
+            "answer": { ".read": "auth != null && (root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid || (root.child('rooms').child($room).child('room').child('activeQuestionKey').val() === $question && root.child('rooms').child($room).child('room').child('resultVisible').val() === true) || root.child('rooms').child($room).child('room').child('status').val() === 'finished')" }
+          }
+        },
+        "students": {
+          ".read": "auth != null",
+          "$number": {
+            ".write": "auth != null && ((!data.exists() && newData.child('uid').val() === auth.uid && root.child('rooms').child($room).child('room').child('eligibleStudents').child($number).val() === true) || data.child('uid').val() === auth.uid || root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid)",
+            ".validate": "newData.hasChildren(['uid','studentNumber','nickname','connected']) && newData.child('studentNumber').isNumber() && newData.child('nickname').isString() && newData.child('nickname').val().length > 0 && newData.child('nickname').val().length <= 12"
+          }
+        },
+        "answers": {
+          ".read": "auth != null && root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid",
+          "$question": {
+            "$number": {
+              ".read": "auth != null && (root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid || root.child('rooms').child($room).child('students').child($number).child('uid').val() === auth.uid)",
+              ".write": "auth != null && root.child('rooms').child($room).child('room').child('status').val() === 'voting' && root.child('rooms').child($room).child('room').child('activeQuestionKey').val() === $question && root.child('rooms').child($room).child('students').child($number).child('uid').val() === auth.uid && newData.child('studentUid').val() === auth.uid",
+              ".validate": "newData.hasChildren(['answer','studentUid','submittedAt']) && newData.child('answer').val().matches(/^(O|X)$/)"
+            }
+          }
+        },
+        "submitted": {
+          ".read": "auth != null",
+          "$question": { "$number": { ".write": "auth != null && root.child('rooms').child($room).child('room').child('status').val() === 'voting' && root.child('rooms').child($room).child('room').child('activeQuestionKey').val() === $question && root.child('rooms').child($room).child('students').child($number).child('uid').val() === auth.uid", ".validate": "newData.val() === true" } }
+        },
+        "publicStats": {
+          ".read": "auth != null && (root.child('rooms').child($room).child('room').child('resultVisible').val() === true || root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid)",
+          ".write": "auth != null && root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid"
+        },
+        "finalResults": {
+          ".read": "auth != null && root.child('rooms').child($room).child('room').child('status').val() === 'finished'",
+          ".write": "auth != null && root.child('rooms').child($room).child('room').child('ownerUid').val() === auth.uid"
+        }
+      }
+    }
+  }
+}
