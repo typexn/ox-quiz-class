@@ -1,14 +1,14 @@
 export const QUESTIONS = [
-  { id: 1, text: '지구는 태양 주위를 돈다.', answer: 'O' },
-  { id: 2, text: '대한민국의 수도는 부산이다.', answer: 'X' },
-  { id: 3, text: '물은 표준 대기압에서 100℃에 끓는다.', answer: 'O' },
-  { id: 4, text: '삼각형의 내각의 합은 360도이다.', answer: 'X' },
-  { id: 5, text: '한글을 창제한 왕은 세종대왕이다.', answer: 'O' },
-  { id: 6, text: '소리는 진공 상태에서도 전달된다.', answer: 'X' },
-  { id: 7, text: '광합성 과정에서 산소가 만들어진다.', answer: 'O' },
-  { id: 8, text: '1은 소수이다.', answer: 'X' },
-  { id: 9, text: '태평양은 지구에서 가장 큰 바다이다.', answer: 'O' },
-  { id: 10, text: '모든 포유류는 알을 낳지 않는다.', answer: 'X' },
+  { id: 1, text: '∠APB = ∠CQD이면 부채꼴 AOB와 부채꼴 COD의 넓이는 같다.', answer: 'O' },
+  { id: 2, text: '∠APB < ∠CQD이면 현 AB < 현 CD이다.', answer: 'X' },
+  { id: 3, text: '∠APB = ∠AQC이면 호 BC의 길이는 호 AB의 2배이다.', answer: 'X' },
+  { id: 4, text: '∠APB + ∠AQB = 180°이면 현 AB ≥ 현 CD이다.', answer: 'X' },
+  { id: 5, text: '현 AB = 현 CD이면 ∠APB = ∠CQD이다.', answer: 'X' },
+  { id: 6, text: '∠APB = ∠CQD이면\n호 AB, 현 AP, 현 BP로 둘러싸인 도형의 넓이는\n호 CD, 현 CQ, 현 DQ로 둘러싸인 도형의 넓이와 같다.', answer: 'X' },
+  { id: 7, text: '현 AB의 길이가 현 CD의 2배이면 ∠APB = 2∠CQD이다.', answer: 'X' },
+  { id: 8, text: 'P와 Q가 현 AB의 서로 반대쪽에 있으면\n∠APB + ∠AQB = 180°이다.', answer: 'O' },
+  { id: 9, text: '사각형 ABCD가 정사각형이면 ∠APC = 90°이다.', answer: 'O' },
+  { id: 10, text: '호 BC = 2호 AB, 호 CD = 3호 AB이고 ∠BPC = 30°이면\n∠AOD = 180°이다.', answer: 'X' },
 ]
 
 export const makeRoomCode = () => Math.random().toString(36).slice(2, 8).toUpperCase()
